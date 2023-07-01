@@ -3,8 +3,10 @@ package main
 import (
 	"crypto/tls"
 	"log"
+	"time"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/limiter"
 	"github.com/gofiber/fiber/v2/middleware/proxy"
 )
 
@@ -20,6 +22,13 @@ func main() {
 	proxy.WithTlsConfig(&tls.Config{
 		InsecureSkipVerify: true,
 	})
+
+	// Rate Limiting.
+	app.Use(limiter.New(limiter.Config{
+		Max:               3,
+		Expiration:        30 * time.Second,
+		LimiterMiddleware: limiter.SlidingWindow{},
+	}))
 
 	// Grouping with Middleware
 	api := app.Group("/api", middleware) // /api
