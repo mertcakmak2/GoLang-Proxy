@@ -52,5 +52,6 @@ func helloWorld(c *fiber.Ctx) error {
 
 func middleware(c *fiber.Ctx) error {
 	log.Println("middleware")
+	c.Request().Header.Set("user", "mert_cakmak")
 	return c.Next()
 }

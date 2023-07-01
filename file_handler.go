@@ -15,6 +15,7 @@ func main() {
 	})
 
 	app.Get("/", func(c *fiber.Ctx) error {
+		fmt.Printf("user: %v\n", c.Get("user"))
 		return c.SendString("Hello, World from port 4000!")
 	})
 
